@@ -164,9 +164,10 @@ with tab2:
 
         # Sort pending questions descending so newest appears at the top
         sorted_pending = sorted(pending_questions, key=lambda x: x["id"], reverse=True)
+        total_q = len(sorted_pending)
         for i, q in enumerate(sorted_pending):
             q_id = q["id"]
-            q_num = i + 1  # 1, 2, 3, 4... seedhi numbering bina kisi gap ke
+            q_num = total_q - i  # Jaise total 3 hain toh: 3, phir 2, phir 1
             creator_name = q.get("creator", "Unknown")
             st.markdown(f"### Q{q_num} [Created by: {creator_name}]: {q['question']}")
 
@@ -305,9 +306,10 @@ with tab4:
         st.write("Database is currently empty.")
     else:
         sorted_all_questions = sorted(questions_list, key=lambda x: x["id"], reverse=True)
+        total_all = len(sorted_all_questions)
         for i, q in enumerate(sorted_all_questions):
             q_id = q["id"]
-            q_num = i + 1  # Proper sequential numbering
+            q_num = total_all - i  # Ulta numbering: latest ko sabse bada number
             opt_map = {
                 "Option (a)": q["opt_a"],
                 "Option (b)": q["opt_b"],
