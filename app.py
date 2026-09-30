@@ -11,8 +11,8 @@ st.set_page_config(
 # --- SUPABASE CONFIGURATION ---
 # Aap chahe toh iske liye ek nayi Supabase table ya project bhi use kar sakte hain, 
 # ya same database mein naye names ke sath chala sakte hain.
-SUPABASE_URL = st.secrets.get("SUPABASE_URL", "")
-SUPABASE_KEY = st.secrets.get("SUPABASE_KEY", "")
+SUPABASE_URL = st.secrets.get("SUPABASE_URL", "https://uyxeykhgcqubjcwgvzrl.supabase.co")
+SUPABASE_KEY = st.secrets.get("SUPABASE_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5eGV5a2hnY3F1Ympjd2d2enJsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3NzcyNzMsImV4cCI6MjEwNjM1MzI3M30.7y3FI5oVVoYMCfh8OrUXUceOXV-S9YRZxfyvheuMgL4")
 
 # Define the 3 Students
 STUDENTS = ["Faizan", "Kaifi", "Osama"]
