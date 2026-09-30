@@ -162,7 +162,10 @@ with tab2:
     else:
         st.write(f"Total Available Questions: {len(pending_questions)}")
 
-        for idx, q in enumerate(pending_questions[::-1]):
+        # Sort pending questions descending so newest appears at the top
+        sorted_pending = sorted(pending_questions, key=lambda x: x["id"], reverse=True)
+        for q in sorted_pending:
+            q_num = questions_list.index(q) + 1
             q_id = q["id"]
             q_num = questions_list.index(q) + 1  
             creator_name = q.get("creator", "Unknown")
@@ -302,7 +305,9 @@ with tab4:
     if not questions_list:
         st.write("Database is currently empty.")
     else:
-        for idx, q in enumerate(questions_list[::-1]):
+        sorted_all_questions = sorted(questions_list, key=lambda x: x["id"], reverse=True)
+        for idx, q in enumerate(sorted_all_questions):
+            q_num = len(questions_list) - questions_list.index(q)
             q_id = q["id"]
             q_num = len(questions_list) - idx
             opt_map = {
