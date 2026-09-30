@@ -3,7 +3,7 @@ from supabase import create_client, Client
 
 # Page configuration for the new 3-Student Quiz Platform
 st.set_page_config(
-    page_title="Tri-Quiz Battle: 3 Students Arena",
+    page_title="Tri-Quiz Battle: Language and GS",
     page_icon="🎓",
     layout="centered",
 )
@@ -73,7 +73,7 @@ def delete_question_from_db(q_id):
 # Main UI Title
 st.title("🎓 Tri-Quiz Battle (3 Students Arena)")
 st.write(
-    "Multi-peer competitive quizzing platform for 3 students. (1/3 Negative Marking)"
+    "Multi-peer competitive quizzing platform for 3 candidates. (1/3 Negative Marking)"
 )
 
 # Sidebar for Student Selection
