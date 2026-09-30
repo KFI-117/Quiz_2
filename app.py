@@ -9,12 +9,10 @@ st.set_page_config(
 )
 
 # --- SUPABASE CONFIGURATION ---
-# Aap chahe toh iske liye ek nayi Supabase table ya project bhi use kar sakte hain, 
-# ya same database mein naye names ke sath chala sakte hain.
 SUPABASE_URL = st.secrets.get("SUPABASE_URL", "https://uyxeykhgcqubjcwgvzrl.supabase.co")
 SUPABASE_KEY = st.secrets.get("SUPABASE_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5eGV5a2hnY3F1Ympjd2d2enJsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3NzcyNzMsImV4cCI6MjEwNjM1MzI3M30.7y3FI5oVVoYMCfh8OrUXUceOXV-S9YRZxfyvheuMgL4")
 
-# Define the 3 Students
+# Define the 3 Students (Aap yahan inke asli naam likh sakte hain)
 STUDENTS = ["Faizan", "Kaifi", "Osama"]
 
 
@@ -88,7 +86,7 @@ if current_user == "Select Name":
     st.warning("⚠️ Please select your profile from the sidebar to begin.")
     st.stop()
 
-# Determine available target options
+# Determine remaining 2 students
 other_students = [s for s in STUDENTS if s != current_user]
 
 # Fetch questions and attempts from Supabase
@@ -103,11 +101,8 @@ tab1, tab2, tab3, tab4 = st.tabs(
 # --- TAB 1: ADD QUESTIONS ---
 with tab1:
     st.header("Add New Question")
-    
-    # Select kaunse student ke liye question banana hai
-    target_student = st.selectbox("Assign Question To:", other_students)
     st.write(
-        f"This question will be added to the test session for **{target_student}**."
+        f"Questions added here will be **automatically assigned to both** of your peers: **{other_students[0]}** and **{other_students[1]}**."
     )
 
     with st.form("add_question_form_3s", clear_on_submit=True):
@@ -126,26 +121,31 @@ with tab1:
             "Explanation (Optional - Provide reasoning for the correct answer):"
         )
 
-        submitted = st.form_submit_button("Save Question")
+        submitted = st.form_submit_button("Save & Broadcast Question")
 
         if submitted:
             if not q_text or not opt_a or not opt_b or not opt_c or not opt_d:
                 st.error("Please fill in all options (a, b, c, d) and the question text.")
             else:
-                new_q = {
-                    "creator": current_user,
-                    "target": target_student,
-                    "question": q_text,
-                    "opt_a": opt_a,
-                    "opt_b": opt_b,
-                    "opt_c": opt_c,
-                    "opt_d": opt_d,
-                    "answer": correct_opt,
-                    "explanation": explanation_text.strip(),
-                }
+                success_all = True
+                # Automatically loop and save for both remaining students
+                for target_student in other_students:
+                    new_q = {
+                        "creator": current_user,
+                        "target": target_student,
+                        "question": q_text,
+                        "opt_a": opt_a,
+                        "opt_b": opt_b,
+                        "opt_c": opt_c,
+                        "opt_d": opt_d,
+                        "answer": correct_opt,
+                        "explanation": explanation_text.strip(),
+                    }
+                    if not save_question_to_db(new_q):
+                        success_all = False
 
-                if save_question_to_db(new_q):
-                    st.success("🎉 Question successfully saved to cloud database!")
+                if success_all:
+                    st.success(f"🎉 Question successfully saved and assigned to both **{other_students[0]}** and **{other_students[1]}**!")
                     st.rerun()
 
 # --- TAB 2: TAKE QUIZ ---
